@@ -5,8 +5,28 @@ import { ProductContext } from "@/contexts/ProductContext";
 import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 
+// const useProducts = ({ maxProductToShow }) => {
+//   const { products } = useContext(ProductContext);
+//   console.log(products);
+
+//   const [productList, setProductList] = useState([]);
+
+//   useEffect(() => {
+//     if (products.length === 0) {
+//       setProductList([]);
+//     } else {
+//       const newList = products.slice(0, maxProductToShow);
+//       setProductList(newList);
+//     }
+//   }, [products, maxProductToShow]);
+
+//   return productList;
+// };
+
 const Product = ({ maxProductToShow }) => {
   const { addToCart } = useContext(CartContext);
+  // const { products } = useProducts(maxProductToShow);
+
   const { products } = useContext(ProductContext);
 
   const productsCategory = {};

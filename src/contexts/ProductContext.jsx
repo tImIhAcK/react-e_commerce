@@ -6,26 +6,24 @@ import PropTypes from "prop-types";
 export const ProductContext = createContext();
 
 const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
 
   useEffect(() => {
     fetchProduct()
       .then((response) => {
         if (response.status === 200) {
-          // console.log(response);
-          setProducts(response.data);
+          setProducts(response.data?.results);
         }
       })
       .catch((error) => {
-        // console.log('An error occurred: ', error)
-        if (error.response.status === 400) {
+        if (error.response && error.response.status === 400) {
           Object.keys(error.response.data).forEach((field) => {
             error.response.data[field].forEach((message) => {
               toast.error(message);
             });
           });
         } else {
-          toast.error("An error occured");
+          toast.error("An error occurred");
         }
       });
   }, []);
