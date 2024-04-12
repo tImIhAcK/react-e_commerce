@@ -7,6 +7,7 @@ import {
   ProductDetails,
   Products,
   Cart,
+  Checkout,
 } from "./pages";
 import { MainWrapper, PrivateRoute } from "./layouts";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
@@ -29,6 +30,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Cart />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                <Checkout />
               </PrivateRoute>
             }
           />

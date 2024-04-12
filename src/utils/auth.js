@@ -57,7 +57,7 @@ export const isAccessTokenExpired = (accessToken) => {
 };
 
 export const login = async (email, password) => {
-  const response = await api.post("auth/jwt/create/", {
+  const response = await api.post("auth/jwt/token/", {
     email,
     password,
   });

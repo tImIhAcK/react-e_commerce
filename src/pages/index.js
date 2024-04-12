@@ -6,6 +6,7 @@ import Activate from "./accounts/Activate";
 import ProductDetails from "./store/ProductDetails";
 import Products from "./store/Products";
 import Cart from "./store/Cart";
+import Checkout from "./store/Checkout";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   ProductDetails,
   Products,
   Cart,
+  Checkout,
 };

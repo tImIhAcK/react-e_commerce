@@ -22,7 +22,7 @@ const Header = () => {
             Get Your Gadgets
           </Link>
         </div>
-        <div className="hidden lg:block justify-center">
+        <div className="hidden lg:block justify-center w-[800px] h-auto object-cover">
           <img src={heroImage} alt="" />
         </div>
       </div>

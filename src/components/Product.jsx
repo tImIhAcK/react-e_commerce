@@ -31,7 +31,7 @@ const Product = ({ maxProductToShow }) => {
 
   const productsCategory = {};
 
-  products.forEach((product) => {
+  products?.forEach((product) => {
     const { category } = product;
     if (!(category.name in productsCategory)) {
       productsCategory[category.name] = [];
