@@ -12,7 +12,7 @@ const Cart = () => {
 
   useEffect(() => {
     const cartTotalPrice = calculateTotalPrice();
-    setShippingCost(cartTotalPrice * 0.05);
+    setShippingCost(cartTotalPrice * 0.005);
   }, []);
 
   const calculateTotalPrice = () => {
@@ -28,30 +28,7 @@ const Cart = () => {
   return (
     <>
       <Navbar />
-      {/* <section className="py-16">
-        <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-          <div className="px-4 pt-[60px]">
-            <p className="text-xl font-medium">Order Summary</p>
-            <p className="text-gray-400">
-              Check your items. And select a suitable shipping method.
-            </p>
-            <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-              {cart.map((item) => (
-                <CartItem key={item.id} item={item} />
-              ))}
-              <CartSummary />
-            </div>
-          </div>
-          <div className="mt-10 bg-gray-50 px-4 pt-[60px] lg:mt-0">
-            <p className="text-xl font-medium">Payment Details</p>
-            <p className="text-gray-400">
-              Complete your order by providing your payment details.
-            </p>
-            {/* Payment details can be added here if needed */}
-      {/* </div> */}
-      {/* </div> */}
-      {/* </section>  */}
-      <section className="h-screen bg-gray-100 py-12 sm:py-16 lg:py-20">
+      <section className="bg-gray-100 py-[32px] sm:py-16 lg:py-20">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center">
             <h1 className="text-2xl font-semibold text-gray-900">
@@ -74,7 +51,7 @@ const Cart = () => {
                   <div className="flex items-center justify-between">
                     <p className="text-sm text-gray-400">Subtotal</p>
                     <p className="text-lg font-semibold text-gray-900">
-                      {calculateTotalPrice}
+                      {calculateTotalPrice()}
                     </p>
                   </div>
                   <div className="flex items-center justify-between">
@@ -84,24 +61,8 @@ const Cart = () => {
                     </p>
                   </div>
                 </div>
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Total</p>
-                  <p className="text-2xl font-semibold text-gray-900">
-                    <span className="text-xs font-normal text-gray-400">
-                      USD
-                    </span>{" "}
-                    {calculateFinalTotalPrice}
-                  </p>
-                </div>
 
-                <div className="mt-6 text-center">
-                  <button
-                    type="button"
-                    className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-                  >
-                    Checkout
-                  </button>
-                </div>
+                <CartSummary finalTotalPrice={calculateFinalTotalPrice()} />
               </div>
             </div>
           </div>

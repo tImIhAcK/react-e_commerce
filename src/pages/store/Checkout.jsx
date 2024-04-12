@@ -1,4 +1,60 @@
+import { placeOrder } from "@/utils/store";
+import { useState } from "react";
+import { useFormik } from "formik";
+import { CartContext } from "@/contexts/CartContext";
+import { useContext } from "react";
+
 const Checkout = () => {
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const { cart } = useContext(CartContext);
+  const items = cart.map((item) => {
+    return {
+      price: parseFloat(item.price),
+      quantity: item.amount,
+      product: item.id,
+    };
+  });
+  console.log(cart);
+
+  const onSubmit = async (values) => {
+    setLoading(true);
+    setSubmitted(false);
+
+    try {
+      const response = await placeOrder(
+        items,
+        values.first_name,
+        values.last_name,
+        values.email,
+        values.phone_unmber,
+        values.address,
+        values.postal_code,
+        values.city
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone_number: "",
+      address: "",
+      postal_code: "",
+      city: "",
+    },
+    // validationSchema: validationSchema,
+    onSubmit: onSubmit,
+  });
+
   return (
     <section className="text-gray-700 body-font relative">
       <div className="container px-5 py-24 mx-auto">
@@ -10,7 +66,14 @@ const Checkout = () => {
               <h2 className="text-xl font-semibold mb-4">
                 Billing Information
               </h2>
-              <form className="w-full">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSubmitted(true);
+                  formik.handleSubmit();
+                }}
+                className="w-full"
+              >
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
@@ -24,6 +87,8 @@ const Checkout = () => {
                       id="first_name"
                       name="first_name"
                       className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.first_name}
+                      onChange={formik.handleChange}
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -38,6 +103,8 @@ const Checkout = () => {
                       id="last_name"
                       name="last_name"
                       className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.last_name}
+                      onChange={formik.handleChange}
                     />
                   </div>
                 </div>
@@ -54,34 +121,24 @@ const Checkout = () => {
                       id="email"
                       name="email"
                       className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
                     />
                   </div>
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
-                      htmlFor="city"
+                      htmlFor="phone_number"
                       className="block text-sm font-medium mb-1"
                     >
-                      City
+                      Phone number
                     </label>
                     <input
                       type="text"
-                      id="city"
-                      name="city"
+                      id="phone_number"
+                      name="phone_number"
                       className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                    />
-                  </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      htmlFor="postal_code"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Postal Code
-                    </label>
-                    <input
-                      type="text"
-                      id="postal_code"
-                      name="postal_code"
-                      className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.phone_number}
+                      onChange={formik.handleChange}
                     />
                   </div>
                 </div>
@@ -98,11 +155,48 @@ const Checkout = () => {
                       id="address"
                       name="address"
                       className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.address}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="postal_code"
+                      className="block text-sm font-medium mb-1"
+                    >
+                      Postal code
+                    </label>
+                    <input
+                      type="text"
+                      id="postal_code"
+                      name="postal_code"
+                      className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.postal_code}
+                      onChange={formik.handleChange}
+                    />
+                  </div>
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="city"
+                      className="block text-sm font-medium mb-1"
+                    >
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      className="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      value={formik.values.city}
+                      onChange={formik.handleChange}
                     />
                   </div>
                 </div>
                 <button
-                  type="button"
+                  type="submit"
+                  disabled={loading}
                   className="w-full bg-blue-500 text-white rounded-md py-3 px-4 text-sm shadow-sm hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
                 >
                   Place Order
