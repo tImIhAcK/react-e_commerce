@@ -48,7 +48,7 @@ const Login = () => {
         navigate("/");
       }
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         Object.keys(error.response.data).forEach((field) => {
           error.response.data[field].forEach((message) => {
             toast.error(message);

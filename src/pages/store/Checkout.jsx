@@ -1,14 +1,16 @@
 import { placeOrder } from "@/utils/store";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import { CartContext } from "@/contexts/CartContext";
-import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+  // const [submitted, setSubmitted] = useState(false);
 
-  const { cart } = useContext(CartContext);
+  const { cart, clearCart } = useContext(CartContext);
   const items = cart.map((item) => {
     return {
       price: parseFloat(item.price),
@@ -16,11 +18,10 @@ const Checkout = () => {
       product: item.id,
     };
   });
-  console.log(cart);
 
   const onSubmit = async (values) => {
     setLoading(true);
-    setSubmitted(false);
+    // setSubmitted(false);
 
     try {
       const response = await placeOrder(
@@ -33,9 +34,21 @@ const Checkout = () => {
         values.postal_code,
         values.city
       );
-      console.log(response);
+      if (response.status === 201) {
+        toast.success("Your order has been placed successful!");
+        clearCart();
+        navigate("/payment");
+      }
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.status === 400) {
+        Object.keys(error.response.data).forEach((field) => {
+          error.response.data[field].forEach((message) => {
+            toast.error(message);
+          });
+        });
+      } else {
+        toast.error("Order placed failed!");
+      }
     } finally {
       setLoading(false);
     }
@@ -69,7 +82,7 @@ const Checkout = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  setSubmitted(true);
+                  // setSubmitted(true);
                   formik.handleSubmit();
                 }}
                 className="w-full"

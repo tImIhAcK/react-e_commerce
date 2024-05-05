@@ -8,6 +8,7 @@ import {
   Products,
   Cart,
   Checkout,
+  Payments,
 } from "./pages";
 import { MainWrapper, PrivateRoute } from "./layouts";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
@@ -38,6 +39,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Checkout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/payment"
+            element={
+              <PrivateRoute>
+                <Payments />
               </PrivateRoute>
             }
           />

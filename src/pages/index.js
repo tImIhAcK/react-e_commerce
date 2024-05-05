@@ -7,6 +7,7 @@ import ProductDetails from "./store/ProductDetails";
 import Products from "./store/Products";
 import Cart from "./store/Cart";
 import Checkout from "./store/Checkout";
+import Payments from "./payments/Payments";
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   Products,
   Cart,
   Checkout,
+  Payments,
 };
