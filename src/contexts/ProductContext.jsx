@@ -12,6 +12,7 @@ const ProductProvider = ({ children }) => {
     fetchProduct()
       .then((response) => {
         if (response.status === 200) {
+          console.log(response);
           setProducts(response.data?.results);
         }
       })

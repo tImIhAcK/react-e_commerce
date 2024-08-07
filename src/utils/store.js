@@ -13,6 +13,7 @@ export const fetchOneProduct = async (id) => {
 
 export const fetchCategory = async () => {
   const response = await api.get("store/categories/");
+  console.log(response);
   return response;
 };
 
